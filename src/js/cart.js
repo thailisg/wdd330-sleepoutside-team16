@@ -12,6 +12,7 @@ function cartItemTemplate(item) {
     <img
       src="${item.Image}"
       alt="${item.Name}"
+      
     />
   </a>
   <a href="#">

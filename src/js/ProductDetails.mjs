@@ -34,12 +34,8 @@ export default class ProductDetails {
 			const brandName = typeof this.product.Brand === "object" ? this.product.Brand.Name : this.product.Brand;
 			document.querySelector(".product-detail h3").textContent = brandName;
 			document.querySelector(".product-detail h2").textContent = this.product.Name;
-			document.querySelector(".product-detail img").src = this.product.Image;
-			document.querySelector(".product-detail img").alt = this.product.Name;
-			document.querySelector(".product-card__price").textContent = `$${this.product.FinalPrice}`;
-			document.querySelector(".product__color").textContent = this.product.Colors[0]?.ColorName || "";
-
-			const descriptionEl = document.querySelector(".product__description");
+			const productImageSrc = this.product.Image?.replace(/^(\.\.\/)+/, "/");
+			document.querySelector(".product-detail img").src = productImageSrc;
 			if (descriptionEl && this.product.DescriptionFull) {
 				descriptionEl.textContent = this.product.DescriptionFull;
 			}

@@ -27,11 +27,21 @@ function addProductToCart(product) {
 async function addToCartHandler(e) {
 	const id = e.target.dataset.id;
 	console.log("Add to cart clicked. Product ID:", id);
+	console.log("Button element:", e.target);
+	console.log("Button dataset:", e.target.dataset);
+
 	const product = await dataSource.findProductById(id);
+	console.log("Product found from dataSource:", product);
+
 	if (!product) {
 		console.error("Product not found:", id);
 		return;
 	}
+
+	console.log("Product Image:", product.Image);
+	console.log("Product Name:", product.Name);
+	console.log("Product FinalPrice:", product.FinalPrice);
+
 	addProductToCart(product);
 }
 

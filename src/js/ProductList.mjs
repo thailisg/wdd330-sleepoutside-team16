@@ -19,11 +19,17 @@ export default class ProductList {
     }
     async init() {
         const list = await this.dataSource.getData();
+        console.log("ProductList fetched", list.length, "items");
+        console.log("ProductList IDs:", list.map((p) => p.Id));
         this.renderList(list);
     }
 
     renderList(list) {
-        renderListWithTemplate(productCardTemplate, this.listElement, list, "afterbegin", true);
+        // Remove duplicate products by Id (defensive, in case JSON contains duplicates)
+        const uniqueById = Array.from(
+            new Map(list.map((p) => [p.Id, p])).values()
+        );
+        renderListWithTemplate(productCardTemplate, this.listElement, uniqueById, "afterbegin", true);
     }
 
 }

@@ -19,9 +19,16 @@ function renderCartContents() {
   renderCartTotal(cartItems);
 }
 
+function normalizeImagePath(path) {
+  if (!path) return path;
+  // Ensure assets are loaded from the webroot so paths work from any page.
+  return path.replace(/^(\.\.\/)+/, "/");
+}
+
 function cartItemTemplate(item) {
   // Add fallback for missing image
-  const imageSrc = item.Image || "../images/tents/cedar-ridge-rimrock-tent-2-person-3-season-in-rust-clay~p~344yj_01~320.jpg";
+  const rawImage = item.Image || "../images/tents/cedar-ridge-rimrock-tent-2-person-3-season-in-rust-clay~p~344yj_01~320.jpg";
+  const imageSrc = normalizeImagePath(rawImage);
   const imageAlt = item.Name || "Product image";
 
   const newItem = `<li class="cart-card divider">
@@ -29,7 +36,7 @@ function cartItemTemplate(item) {
     <img
       src="${imageSrc}"
       alt="${imageAlt}"
-      onerror="this.src='../images/tents/cedar-ridge-rimrock-tent-2-person-3-season-in-rust-clay~p~344yj_01~320.jpg'"
+      onerror="this.src='/images/tents/cedar-ridge-rimrock-tent-2-person-3-season-in-rust-clay~p~344yj_01~320.jpg'"
     />
   </a>
   <a href="#">

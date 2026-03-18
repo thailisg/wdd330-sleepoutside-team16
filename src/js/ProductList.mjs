@@ -1,7 +1,7 @@
 import { renderListWithTemplate } from "./utils.mjs";
 
 function productCardTemplate(product) {
-    return `<li class="product-card">
+	return `<li class="product-card">
         <a href="product_pages/?product=${product.Id}">
             <img src="${product.Image}" alt="Image of ${product.Name}">
             <h2 class="card__brand">${product.Brand.Name}</h2>
@@ -12,18 +12,24 @@ function productCardTemplate(product) {
 }
 
 export default class ProductList {
-    constructor(category, dataSource, listElement) {
-        this.category = category;
-        this.dataSource = dataSource;
-        this.listElement = listElement;
-    }
-    async init() {
-        const list = await this.dataSource.getData();
-        this.renderList(list);
-    }
+	constructor(category, dataSource, listElement) {
+		this.category = category;
+		this.dataSource = dataSource;
+		this.listElement = listElement;
+	}
+	async init() {
+		const list = await this.dataSource.getData();
+		console.log("ProductList fetched", list.length, "items");
+		console.log("ProductList IDs:", list.map((p) => p.Id));
+		this.renderList(list);
+	}
 
-    renderList(list) {
-        renderListWithTemplate(productCardTemplate, this.listElement, list, "afterbegin", true);
-    }
+	renderList(list) {
+		// Remove duplicate products by Id (defensive, in case JSON contains duplicates)
+		const uniqueById = Array.from(
+			new Map(list.map((p) => [p.Id, p])).values()
+		);
+		renderListWithTemplate(productCardTemplate, this.listElement, uniqueById, "afterbegin", true);
+	}
 
 }

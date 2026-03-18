@@ -33,16 +33,16 @@ export function setClick(selector, callback) {
 }
 
 export function renderListWithTemplate(
-  templateFn,
-  parentElement,
-  list,
-  position = "afterbegin",
-  clear = false
+	templateFn,
+	parentElement,
+	list,
+	position = "afterbegin",
+	clear = false
 ) {
-  if (clear) {
-    parentElement.innerHTML = "";
-  }
+	if (clear) {
+		parentElement.innerHTML = "";
+	}
 
-  const htmlStrings = list.map(templateFn).join("");
-  parentElement.insertAdjacentHTML(position, htmlStrings);
+	const htmlStrings = list.map(templateFn).join("");
+	parentElement.insertAdjacentHTML(position, htmlStrings);
 }

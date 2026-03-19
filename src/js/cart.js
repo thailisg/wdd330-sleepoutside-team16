@@ -1,4 +1,8 @@
+/* eslint-disable no-console */
 import { getLocalStorage } from "./utils.mjs";
+import { loadHeaderFooter } from "./utils.mjs";
+
+loadHeaderFooter();
 
 function renderCartContents() {
 	const cartItems = getLocalStorage("so-cart") || [];
@@ -6,7 +10,7 @@ function renderCartContents() {
 
 	if (!Array.isArray(cartItems) || cartItems.length === 0) {
 		document.querySelector(".product-list").innerHTML =
-			'<li class="empty-cart">Your cart is empty.</li>';
+			"<li class=\"empty-cart\">Your cart is empty.</li>";
 		return;
 	}
 

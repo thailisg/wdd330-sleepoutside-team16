@@ -1,14 +1,18 @@
+/* eslint-disable no-console */
 import { getLocalStorage } from "./utils.mjs";
+import { loadHeaderFooter } from "./utils.mjs";
+
+loadHeaderFooter();
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart") || [];
   console.log("Cart items from localStorage:", cartItems);
 
-  if (!Array.isArray(cartItems) || cartItems.length === 0) {
-    document.querySelector(".product-list").innerHTML =
-      '<li class="empty-cart">Your cart is empty.</li>';
-    return;
-  }
+	if (!Array.isArray(cartItems) || cartItems.length === 0) {
+		document.querySelector(".product-list").innerHTML =
+			"<li class=\"empty-cart\">Your cart is empty.</li>";
+		return;
+	}
 
   const htmlItems = cartItems.map((item) => {
     console.log("Rendering item:", item);

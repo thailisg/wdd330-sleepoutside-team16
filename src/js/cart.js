@@ -19,6 +19,7 @@ function renderCartContents() {
 	renderCartTotal(cartItems);
 }
 
+
 function normalizeImagePath(path) {
 	if (!path) return path;
 	// Ensure assets are loaded from the webroot so paths work from any page.

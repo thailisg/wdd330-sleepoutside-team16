@@ -36,13 +36,13 @@ function cartItemTemplate(item) {
 /*Task: Total$ in Cart*/
 
 function calculateTotal(cartItems) {
-  
+
   const total = cartItems.reduce((sum, item) => sum + Number(item.FinalPrice), 0);
   return total;
 }
 
 function renderCartTotal(cartItems) {
-  
+
   const total = calculateTotal(cartItems);
 
   const totalElement = document.querySelector(".cart-total");
@@ -55,3 +55,4 @@ function renderCartTotal(cartItems) {
 }
 
 renderCartContents();
+

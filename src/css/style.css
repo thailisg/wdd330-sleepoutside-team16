@@ -261,3 +261,20 @@ footer {
   font-size: var(--small-font);
   padding: 1em;
 }
+
+/* Task: Total$ in Cart*/
+
+.hide{
+  display: none;
+}
+
+.cart-total{
+  border: 2px solid var(--primary-color);
+  color: var(--tertiary-color);
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: var(--large-font);
+  margin: .5rem;
+}
+

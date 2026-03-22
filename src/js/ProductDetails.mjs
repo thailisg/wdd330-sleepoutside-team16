@@ -1,41 +1,53 @@
-import { setLocalStorage, getLocalStorage } from "./utils.mjs";
+import { qs } from "./utils.mjs";
+import ProductData from "./ProductData.mjs";
 
 export default class ProductDetails {
-  constructor(productId, dataSource) {
-    this.productId = productId;
-    this.product = {};
-    this.dataSource = dataSource;
-  }
+	constructor(productId) {
+		this.productId = productId;
+		this.product = {};
+		this.dataSource = new ProductData("tents");
+	}
 
-  async init() {
-    this.product = await this.dataSource.findProductById(this.productId);
+	async init() {
+		try {
+			console.log("Initializing product details for ID:", this.productId);
+			this.product = await this.dataSource.findProductById(this.productId);
+			if (!this.product) {
+				console.error("Product not found for ID:", this.productId);
+				return;
+			}
+			console.log("Product found:", this.product);
+			this.renderProductDetails();
+		} catch (error) {
+			console.error("Error loading product:", error);
+		}
+	}
 
-    this.renderProductDetails();
+	renderProductDetails() {
+		if (!this.product) {
+			console.error("Product not found");
+			return;
+		}
 
-    document
-      .getElementById("addToCart")
-      .addEventListener("click", this.addProductToCart.bind(this));
+		try {
+			// Update product details in the page
+			const brandName = typeof this.product.Brand === "object" ? this.product.Brand.Name : this.product.Brand;
+			document.querySelector(".product-detail h3").textContent = brandName;
+			document.querySelector(".product-detail h2").textContent = this.product.Name;
+			const productImageSrc = this.product.Image?.replace(/^(\.\.\/)+/, "/");
+			document.querySelector(".product-detail img").src = productImageSrc;
+			if (descriptionEl && this.product.DescriptionFull) {
+				descriptionEl.textContent = this.product.DescriptionFull;
+			}
 
-    console.log(this.product);
-  }
-
-  addProductToCart() {
-    const cartItems = getLocalStorage("so-cart") || [];
-    cartItems.push(this.product);
-    setLocalStorage("so-cart", cartItems);
-  }
-
-  renderProductDetails() {
-    document.querySelector("#productName").textContent = this.product.Name;
-
-    document.querySelector("#productBrand").textContent = this.product.Brand.Name;
-
-    document.querySelector("#productPrice").textContent = `$${this.product.FinalPrice}`;
-
-    document.querySelector("#productDescription").textContent = this.product.Description;
-
-    document.querySelector("#productImage").src = this.product.Image;
-
-    document.querySelector("#productColor").textContent = this.product.Colors[0].ColorName;
-}
+			// Update the data-id attribute for the Add to Cart button
+			const addToCartButton = document.getElementById("addToCart");
+			if (addToCartButton) {
+				addToCartButton.dataset.id = this.productId;
+				console.log("Button data-id set to:", this.productId);
+			}
+		} catch (error) {
+			console.error("Error rendering product details:", error);
+		}
+	}
 }

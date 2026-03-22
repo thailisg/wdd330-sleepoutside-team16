@@ -1,11 +1,53 @@
-import { getParam } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, getParam } from "./utils.mjs";
 import ProductData from "./ProductData.mjs";
 import ProductDetails from "./ProductDetails.mjs";
 
 const productId = getParam("product");
+console.log("Product ID from URL:", productId);
 
 const dataSource = new ProductData("tents");
 
-const product = new ProductDetails(productId, dataSource);
+function addProductToCart(product) {
+  const cartItems = getLocalStorage("so-cart") || [];
+  cartItems.push(product);
+  setLocalStorage("so-cart", cartItems);
+}
+// add to cart button event handler
+async function addToCartHandler(e) {
+	const id = e.target.dataset.id;
+	console.log("Add to cart clicked. Product ID:", id);
+	console.log("Button element:", e.target);
+	console.log("Button dataset:", e.target.dataset);
 
-product.init();
+	const product = await dataSource.findProductById(id);
+	console.log("Product found from dataSource:", product);
+
+	if (!product) {
+		console.error("Product not found:", id);
+		return;
+	}
+
+	console.log("Product Image:", product.Image);
+	console.log("Product Name:", product.Name);
+	console.log("Product FinalPrice:", product.FinalPrice);
+
+	addProductToCart(product);
+}
+
+// Initialize ProductDetails
+if (productId) {
+	const product = new ProductDetails(productId);
+	product.init().catch((error) => {
+		console.error("Error initializing product details:", error);
+	});
+} else {
+	console.warn("No product ID found in URL");
+}
+
+// Add listener to Add to Cart button
+const addToCartBtn = document.getElementById("addToCart");
+if (addToCartBtn) {
+	addToCartBtn.addEventListener("click", addToCartHandler);
+} else {
+	console.error("Add to Cart button not found");
+}

@@ -90,7 +90,7 @@ p {
   margin-top: -1.3em;
 }
 
-.logo--square > div {
+.logo--square>div {
   margin-top: -1.7em;
 }
 
@@ -241,6 +241,49 @@ button {
   grid-column: 3;
 }
 
+/*Categories in index logos*/
+
+.categories {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.categories h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.category-list {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.category-list a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s;
+}
+
+.category-list a:hover {
+  transform: scale(1.05);
+}
+
+.category-list img {
+  width: 100px;
+  height: auto;
+  margin-bottom: 8px;
+}
+
+.category-list span {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
@@ -264,11 +307,11 @@ footer {
 
 /* Task: Total$ in Cart*/
 
-.hide{
+.hide {
   display: none;
 }
 
-.cart-total{
+.cart-total {
   border: 2px solid var(--primary-color);
   color: var(--tertiary-color);
   padding: 0.6rem 1rem;
@@ -277,4 +320,3 @@ footer {
   font-size: var(--large-font);
   margin: .5rem;
 }
-

@@ -30,9 +30,9 @@ export default class ProductDetails {
 		}*/
 	}
 
-	addProductToCart(product) {
+	addProductToCart() {
 		const cartItems = getLocalStorage("so-cart") || [];
-		cartItems.push(product);
+		cartItems.push(this.product);
 		setLocalStorage("so-cart", cartItems);
 	}
 
@@ -42,20 +42,16 @@ export default class ProductDetails {
 }
 
 function productDetailsTemplate(product) {
-	document.querySelector("h2").textContent = product.Category.charAt(0).toUpperCase() + product.Category.slice(1);
-	document.querySelector("#p-brand").textContent = product.Brand.Name;
-	document.querySelector("#p-name").textContent = product.NameWithoutBrand;
+	document.querySelector("#productBrand").textContent = product.Brand.Name;
+	document.querySelector("#productName").textContent = product.Name;
 
-	const productImage = document.querySelector("#p-image");
+	const productImage = document.querySelector("#productImage");
 	productImage.src = product.Images.PrimaryLarge;
-	productImage.alt = product.NameWithoutBrand;
-	const euroPrice = new Intl.NumberFormat('de-DE',
-		{
-			style: 'currency', currency: 'EUR',
-		}).format(Number(product.FinalPrice) * 0.85);
-	document.querySelector("#p-price").textContent = `${euroPrice}`;
-	document.querySelector("#p-color").textContent = product.Colors[0].ColorName;
-	document.querySelector("#p-description").innerHTML = product.DescriptionHtmlSimple;
+	productImage.alt = product.Name;
 
-	document.querySelector("#add-to-cart").dataset.id = product.Id;
+	document.querySelector("#productPrice").textContent = `$${product.FinalPrice}`;
+	document.querySelector("#productColor").textContent = product.Colors[0].ColorName;
+	document.querySelector("#productDescription").innerHTML = product.DescriptionHtmlSimple;
+
+	document.querySelector("#addToCart").dataset.id = product.Id;
 }

@@ -90,7 +90,7 @@ p {
   margin-top: -1.3em;
 }
 
-.logo--square>div {
+.logo--square > div {
   margin-top: -1.7em;
 }
 
@@ -318,5 +318,5 @@ footer {
   border-radius: 8px;
   font-weight: bold;
   font-size: var(--large-font);
-  margin: .5rem;
+  margin: 0.5rem;
 }

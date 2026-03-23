@@ -38,7 +38,6 @@ export function getParam(param) {
 	return urlParams.get(param);
 }
 
-/*
 export function renderListWithTemplate(
 	templateFn,
 	parentElement,
@@ -53,7 +52,6 @@ export function renderListWithTemplate(
 	const htmlStrings = list.map(templateFn).join("");
 	parentElement.insertAdjacentHTML(position, htmlStrings);
 }
-*/
 
 export function renderWithTemplate(
 	template,

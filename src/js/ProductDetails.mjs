@@ -1,15 +1,22 @@
-import { qs } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 import ProductData from "./ProductData.mjs";
 
 export default class ProductDetails {
-	constructor(productId) {
+	constructor(productId, dataSource) {
 		this.productId = productId;
 		this.product = {};
-		this.dataSource = new ProductData("tents");
+		this.dataSource = dataSource;
 	}
 
 	async init() {
-		try {
+
+		this.product = await this.dataSource.findProductById(this.productId);
+		this.renderProductDetails();
+
+		document
+			.getElementById("addToCart")
+			.addEventListener("click", this.addProductToCart.bind(this));
+		/*try {
 			console.log("Initializing product details for ID:", this.productId);
 			this.product = await this.dataSource.findProductById(this.productId);
 			if (!this.product) {
@@ -20,34 +27,31 @@ export default class ProductDetails {
 			this.renderProductDetails();
 		} catch (error) {
 			console.error("Error loading product:", error);
-		}
+		}*/
+	}
+
+	addProductToCart() {
+		const cartItems = getLocalStorage("so-cart") || [];
+		cartItems.push(this.product);
+		setLocalStorage("so-cart", cartItems);
 	}
 
 	renderProductDetails() {
-		if (!this.product) {
-			console.error("Product not found");
-			return;
-		}
-
-		try {
-			// Update product details in the page
-			const brandName = typeof this.product.Brand === "object" ? this.product.Brand.Name : this.product.Brand;
-			document.querySelector(".product-detail h3").textContent = brandName;
-			document.querySelector(".product-detail h2").textContent = this.product.Name;
-			const productImageSrc = this.product.Image?.replace(/^(\.\.\/)+/, "/");
-			document.querySelector(".product-detail img").src = productImageSrc;
-			if (descriptionEl && this.product.DescriptionFull) {
-				descriptionEl.textContent = this.product.DescriptionFull;
-			}
-
-			// Update the data-id attribute for the Add to Cart button
-			const addToCartButton = document.getElementById("addToCart");
-			if (addToCartButton) {
-				addToCartButton.dataset.id = this.productId;
-				console.log("Button data-id set to:", this.productId);
-			}
-		} catch (error) {
-			console.error("Error rendering product details:", error);
-		}
+		productDetailsTemplate(this.product);
 	}
+}
+
+function productDetailsTemplate(product) {
+	document.querySelector("#productBrand").textContent = product.Brand.Name;
+	document.querySelector("#productName").textContent = product.Name;
+
+	const productImage = document.querySelector("#productImage");
+	productImage.src = product.Images.PrimaryLarge;
+	productImage.alt = product.Name;
+
+	document.querySelector("#productPrice").textContent = `$${product.FinalPrice}`;
+	document.querySelector("#productColor").textContent = product.Colors[0].ColorName;
+	document.querySelector("#productDescription").innerHTML = product.DescriptionHtmlSimple;
+
+	document.querySelector("#addToCart").dataset.id = product.Id;
 }

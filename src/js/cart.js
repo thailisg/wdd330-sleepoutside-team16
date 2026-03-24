@@ -44,7 +44,9 @@ function normalizeImagePath(path) {
 }
 
 function cartItemTemplate(item) {
-  const rawImage = item.Image || "../images/tents/cedar-ridge-rimrock-tent-2-person-3-season-in-rust-clay~p~344yj_01~320.jpg";
+  const rawImage =
+    item.Image ||
+    "../images/tents/cedar-ridge-rimrock-tent-2-person-3-season-in-rust-clay~p~344yj_01~320.jpg";
   const imageSrc = normalizeImagePath(rawImage);
   const imageAlt = item.Name || "Product image";
 
@@ -70,7 +72,10 @@ function cartItemTemplate(item) {
 /*Task: Total$ in Cart*/
 
 function calculateTotal(cartItems) {
-  const total = cartItems.reduce((sum, item) => sum + Number(item.FinalPrice), 0);
+  const total = cartItems.reduce(
+    (sum, item) => sum + Number(item.FinalPrice),
+    0,
+  );
   return total;
 }
 
@@ -87,4 +92,3 @@ function renderCartTotal(cartItems) {
 }
 
 renderCartContents();
-

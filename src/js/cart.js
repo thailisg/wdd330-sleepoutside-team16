@@ -1,4 +1,4 @@
-import { getLocalStorage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart") || [];
@@ -16,9 +16,26 @@ function renderCartContents() {
     return cartItemTemplate(item);
   });
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
+
+  document.querySelectorAll(".remove-item").forEach((btn) => {
+    btn.addEventListener("click", removeItemHandler);
+  });
+
   renderCartTotal(cartItems);
 }
 
+function removeItemHandler(e) {
+  const id = e.target.dataset.id;
+  console.log("Removing item with ID:", id);
+
+  let cartItems = getLocalStorage("so-cart") || [];
+
+  cartItems = cartItems.filter((item) => item.Id != id);
+
+  setLocalStorage("so-cart", cartItems);
+
+  renderCartContents();
+}
 
 function normalizeImagePath(path) {
   if (!path) return path;
@@ -32,6 +49,7 @@ function cartItemTemplate(item) {
   const imageAlt = item.Name || "Product image";
 
   const newItem = `<li class="cart-card divider">
+    <span class="remove-item" data-id="${item.Id}">&times;</span>
 		<a href="#" class="cart-card__image">
 			<img
 				src="${imageSrc}"

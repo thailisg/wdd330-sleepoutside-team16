@@ -210,6 +210,7 @@ button {
   font-size: var(--small-font);
   /* max-height: 120px; */
   align-items: center;
+  position: relative;
 }
 
 .cart-card__image {
@@ -319,4 +320,15 @@ footer {
   font-weight: bold;
   font-size: var(--large-font);
   margin: .5rem;
+}
+
+/*Remove from cart feature */
+
+.remove-item {
+  cursor: pointer;
+  font-size: 40px;
+  color: red;
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }

@@ -1,4 +1,7 @@
-import { getLocalStorage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+import { loadHeaderFooter } from "./utils.mjs";
+
+loadHeaderFooter();
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart") || [];
@@ -16,6 +19,11 @@ function renderCartContents() {
     return cartItemTemplate(item);
   });
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
+
+  document.querySelectorAll(".remove-item").forEach((btn) => {
+    btn.addEventListener("click", removeItemHandler);
+  });
+
   renderCartTotal(cartItems);
 }
 
@@ -27,12 +35,15 @@ function normalizeImagePath(path) {
 
 function cartItemTemplate(item) {
   const rawImage =
-    item.Image ||
+    item.Images?.PrimaryLarge ||
+    item.Images?.PrimaryMedium ||
+    item.Images?.PrimarySmall ||
     "../images/tents/cedar-ridge-rimrock-tent-2-person-3-season-in-rust-clay~p~344yj_01~320.jpg";
-  const imageSrc = normalizeImagePath(rawImage);
+  const imageSrc = normalizeImagePath(rawImage);;
   const imageAlt = item.Name || "Product image";
 
   const newItem = `<li class="cart-card divider">
+    <span class="remove-item" data-id="${item.Id}">&times;</span>
 		<a href="#" class="cart-card__image">
 			<img
 				src="${imageSrc}"
@@ -70,6 +81,21 @@ function renderCartTotal(cartItems) {
     totalElement.textContent = `Total: $${total.toFixed(2)}`;
     footer.classList.remove("hide");
   }
+}
+
+/*Task: Remove from cart feature*/
+
+function removeItemHandler(e) {
+  const id = e.target.dataset.id;
+  console.log("Removing item with ID:", id);
+
+  let cartItems = getLocalStorage("so-cart") || [];
+
+  cartItems = cartItems.filter((item) => item.Id != id);
+
+  setLocalStorage("so-cart", cartItems);
+
+  renderCartContents();
 }
 
 renderCartContents();

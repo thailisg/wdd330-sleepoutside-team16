@@ -1,56 +1,20 @@
-import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+import { getParam, loadHeaderFooter } from "./utils.mjs";
 import ProductData from "./ProductData.mjs";
+import ProductDetails from "./ProductDetails.mjs";
 
-const dataSource = new ProductData("tents");
+loadHeaderFooter();
 
-function normalizeCartData(rawCart) {
-	const cart = Array.isArray(rawCart) ? rawCart : rawCart ? [rawCart] : [];
-	const map = new Map();
+const productId = getParam("product");
+console.log(" Product ID from URL:", productId);
+const dataSource = new ProductData();
 
-	for (const entry of cart) {
-		if (!entry) continue;
 
-		const id = entry.Id ?? entry.id;
-		if (!id) continue;
-
-		const quantity = Number(entry.quantity ?? entry.qty ?? 1) || 1;
-
-		const existing = map.get(id);
-		if (existing) {
-			existing.quantity += quantity;
-		} else {
-			map.set(id, { id, quantity });
-		}
-	}
-
-	return Array.from(map.values());
+if (productId) {
+	const product = new ProductDetails(productId, dataSource);
+	product.init().catch((error) => {
+		console.error("Error initializing product details:", error);
+	});
+} else {
+	console.warn("No product ID found in URL");
 }
 
-function addProductToCart(product) {
-	if (!product || !product.Id) return;
-
-	const rawCart = getLocalStorage("so-cart", []);
-	const cart = normalizeCartData(rawCart);
-
-	const existing = cart.find((item) => item.id === product.Id);
-	if (existing) {
-		existing.quantity += 1;
-	} else {
-		cart.push({ id: product.Id, quantity: 1 });
-	}
-
-	setLocalStorage("so-cart", cart);
-	alert(`${product.Name} added to cart!`);
-}
-
-// add to cart button event handler
-async function addToCartHandler(e) {
-	const product = await dataSource.findProductById(e.target.dataset.id);
-	addProductToCart(product);
-}
-
-// add listener to Add to Cart button
-const addToCartButton = document.getElementById("addToCart");
-if (addToCartButton) {
-	addToCartButton.addEventListener("click", addToCartHandler);
-}

@@ -1,7 +1,7 @@
 import { getLocalStorage } from "./utils.mjs";
 import ProductData from "./ProductData.mjs";
+const dataSource = new ProductData();
 
-const dataSource = new ProductData("tents");
 
 function normalizeCartData(rawCart) {
 	const cart = Array.isArray(rawCart) ? rawCart : rawCart ? [rawCart] : [];
@@ -27,18 +27,16 @@ function normalizeCartData(rawCart) {
 }
 
 async function renderCartContents() {
-	const storedCart = getLocalStorage("so-cart", []);
+	const storedCart = getLocalStorage("so-cart") || [];
 	const cartItems = normalizeCartData(storedCart);
 
 	const listEl = document.querySelector(".product-list");
 	if (!listEl) return;
 
-	const products = await dataSource.getData();
-	const productById = new Map(products.map((p) => [p.Id, p]));
 
 	const items = cartItems
 		.map((item) => {
-			const product = productById.get(item.id);
+			const product = storedCart.find(p => (p.Id ?? p.id) === item.id);
 			if (!product) return null;
 			return {
 				...product,
@@ -60,14 +58,14 @@ function cartItemTemplate(item) {
 	const newItem = `<li class="cart-card divider">
   <a href="#" class="cart-card__image">
     <img
-      src="${item.Image}"
+      src="${item.Images?.PrimaryLarge}" 
       alt="${item.Name}"
     />
   </a>
   <a href="#">
     <h2 class="card__name">${item.Name}</h2>
   </a>
-  <p class="cart-card__color">${item.Colors[0].ColorName}</p>
+  <p class="cart-card__color">${item.Colors?.[0]?.ColorName || "N/A"}</p>
   <p class="cart-card__quantity">qty: ${item.quantity || 1}</p>
   <p class="cart-card__price">$${item.FinalPrice}</p>
 </li>`;

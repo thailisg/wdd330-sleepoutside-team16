@@ -9,10 +9,10 @@ const dataSource = new ProductData();
 
 // Initialize ProductDetails
 if (productId) {
-	const product = new ProductDetails(productId, dataSource);
-	product.init().catch((error) => {
-		console.error("Error initializing product details:", error);
-	});
+  const product = new ProductDetails(productId, dataSource);
+  product.init().catch((error) => {
+    console.error("Error initializing product details:", error);
+  });
 } else {
-	console.warn("No product ID found in URL");
+  console.warn("No product ID found in URL");
 }

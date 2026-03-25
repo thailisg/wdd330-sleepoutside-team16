@@ -70,3 +70,4 @@ function renderCartTotal(cartItems) {
 
 renderCartContents();
 
+

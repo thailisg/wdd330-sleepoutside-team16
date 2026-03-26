@@ -1,4 +1,4 @@
-/*import { getLocalStorage, renderListWithTemplate } from "./utils.mjs";
+import { getLocalStorage, renderListWithTemplate } from "./utils.mjs";
 
 function shoppingCartTemplates(product) {
     return `<li class="product-card">
@@ -12,5 +12,7 @@ function shoppingCartTemplates(product) {
 }
 
 export default class shoppingCart {
-    constructor()
-}*/
+    constructor() {
+        // Initialize the shopping cart
+    }
+}

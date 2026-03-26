@@ -3,6 +3,15 @@ import { loadHeaderFooter } from "./utils.mjs";
 
 loadHeaderFooter();
 
+var checkoutBtn = document.querySelector(".checkout-btn");
+if (checkoutBtn) {
+  checkoutBtn.addEventListener("click", gotoCheckout);
+}
+
+function gotoCheckout() {
+  window.location.href = "./checkout/index.html";
+}
+
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart") || [];
   console.log("Cart items from localStorage:", cartItems);

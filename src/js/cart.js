@@ -3,7 +3,7 @@ import { loadHeaderFooter } from "./utils.mjs";
 
 loadHeaderFooter();
 
-var checkoutBtn = document.querySelector(".checkout-btn");
+var checkoutBtn = document.getElementById("checkout-btn");
 if (checkoutBtn) {
   checkoutBtn.addEventListener("click", gotoCheckout);
 }

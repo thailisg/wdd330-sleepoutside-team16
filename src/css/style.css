@@ -285,6 +285,34 @@ button {
   font-size: 1rem;
 }
 
+/* Checkout page styles */
+.divider #products {
+  margin-top: 1em;
+}
+
+.divider #products h2 {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.divider #products .cart-card {
+  margin-bottom: 1em;
+}
+
+#form {
+  margin-top: 2em;
+}
+
+#form #checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+#form #checkout-form label {
+  font-weight: bold;
+}
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;

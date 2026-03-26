@@ -9,7 +9,7 @@ if (checkoutBtn) {
 }
 
 function gotoCheckout() {
-  window.location.href = "./checkout/index.html";
+  window.location.href = "../checkout/index.html";
 }
 
 function renderCartContents() {

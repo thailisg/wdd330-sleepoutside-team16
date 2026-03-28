@@ -80,25 +80,32 @@ export default class CheckoutProcess {
         return items.map(item => ({
             id: item.Id,
             name: item.Name,
-            price: item.FinalPrice,
+            price: Number(item.FinalPrice),
             quantity: item.quantity || 1
         }));
     }
 
     async checkout(form) {
-        const orderData = formDataToJSON(form);
+        try {
+            const orderData = formDataToJSON(form);
 
-        orderData.orderDate = new Date().toISOString();
-        orderData.items = this.packageItems(this.list);
-        orderData.orderTotal = this.orderTotal;
-        orderData.shipping = this.shipping;
-        orderData.tax = this.tax;
+            orderData.orderDate = new Date().toISOString();
+            orderData.items = this.packageItems(this.list);
+            orderData.orderTotal = this.orderTotal.toFixed(2);
+            orderData.shipping = this.shipping;
+            orderData.tax = this.tax.toFixed(2);
 
-        console.log("ORDER DATA:", orderData);
+            const services = new ExternalServices();
+            const result = await services.checkout(orderData);
 
-        const services = new ExternalServices();
-        const result = await services.checkout(orderData);
+            return result;
 
-        return result;
+        } catch (err) {
+            console.error("Checkout error:", err);
+
+            alert(err.message?.message || "Error processing order");
+
+            return null;
+        }
     }
 }

@@ -20,14 +20,23 @@ document.addEventListener("DOMContentLoaded", async () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    const isValid = form.checkValidity();
+    form.reportValidity();
+
+    if (!isValid) return;
+
     try {
       const result = await checkout.checkout(form);
 
-      console.log("Response or the server:", result);
+      console.log("Response from server:", result);
 
-      alert("Order submitted successfully!");
+      console.log("RESULT:", result);
+
+      if (!result) return;
 
       localStorage.removeItem("so-cart");
+
+      window.location.href = "./success.html";
 
     } catch (error) {
       console.error("Error en checkout:", error);

@@ -1,21 +1,35 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sleep Outside | Product Listing</title>
-    <link rel="stylesheet" href="../css/style.css" />
-    <script type="module" src="../js/product-listing.js"></script>
-  </head>
 
-  <body>
-    <header class="divider" id="main-header"></header>
-    <main class="divider">
-      <section class="products">
-        <h2>Products<span class="title highlight"></span></h2>
-        <ul class="product-list"></ul>
-      </section>
-    </main>
-    <footer id="main-footer"></footer>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sleep Outside | Product Listing</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <script type="module" src="../js/product-listing.js"></script>
+</head>
+
+<body>
+  <header class="divider" id="main-header"></header>
+  <main class="divider">
+    <section class="products">
+      <h2>Products<span class="title highlight"></span></h2>
+      <!-- ================== Task: Product List sort ================ -->
+      <label for="sort-select">Sort by:</label>
+
+      <select id="sort-select">
+
+        <option value="name-asc">Name A to Z</option>
+        <option value="name-desc">Name Z to A</option>
+        <option value="price-asc">Price (Low to High)</option>
+        <option value="price-desc">Price (High to Low)</option>
+
+      </select>
+      <!-- =========================================================== -->
+      <ul class="product-list"></ul>
+    </section>
+  </main>
+  <footer id="main-footer"></footer>
+</body>
+
 </html>

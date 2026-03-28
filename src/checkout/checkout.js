@@ -14,4 +14,24 @@ document.addEventListener("DOMContentLoaded", async () => {
   zipInput.addEventListener("change", () => {
     checkout.calculateOrderTotal();
   });
+
+  const form = document.getElementById("checkout-form");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    try {
+      const result = await checkout.checkout(form);
+
+      console.log("Response or the server:", result);
+
+      alert("Order submitted successfully!");
+
+      localStorage.removeItem("so-cart");
+
+    } catch (error) {
+      console.error("Error en checkout:", error);
+      alert("There was an error processing your order.");
+    }
+  });
 });

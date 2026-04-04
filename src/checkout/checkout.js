@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-
+			 checkout.calculateOrderTotal();
     const isValid = form.checkValidity();
     form.reportValidity();
 
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       localStorage.removeItem("so-cart");
 
-      window.location.href = "./success.html";
+      window.location.href = "/success.html";
 
     } catch (error) {
       console.error("Error en checkout:", error);

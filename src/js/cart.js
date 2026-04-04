@@ -24,6 +24,10 @@ function renderCartContents() {
 		btn.addEventListener("click", removeItemHandler);
 	});
 
+	document.querySelectorAll(".cart-qty").forEach((input) => {
+		input.addEventListener("change", updateQuantityHandler);
+	});
+
 	renderCartTotal(cartItems);
 }
 
@@ -54,7 +58,13 @@ function cartItemTemplate(item) {
 			<h2 class="card__name">${item.Name || "Unknown Product"}</h2>
 		</a>
 		<p class="cart-card__color">${item.Colors && item.Colors[0] ? item.Colors[0].ColorName : "N/A"}</p>
-		<p class="cart-card__quantity">qty: 1</p>
+		<input
+  type="number"
+  class="cart-qty"
+  data-id="${item.Id}" 
+  value="${item.quantity || 1}" 
+  min="1"
+/>
 		<p class="cart-card__price">$${item.FinalPrice || "N/A"}</p>
 	</li>`;
 
@@ -65,7 +75,7 @@ function cartItemTemplate(item) {
 
 function calculateTotal(cartItems) {
 	const total = cartItems.reduce(
-		(sum, item) => sum + Number(item.FinalPrice),
+		(sum, item) => sum + Number(item.FinalPrice) * (item.quantity || 1),
 		0,
 	);
 	return total;
@@ -96,6 +106,27 @@ function removeItemHandler(e) {
 	setLocalStorage("so-cart", cartItems);
 
 	renderCartContents();
+}
+
+function updateQuantityHandler(e) {
+	const id = e.target.dataset.id;
+	const newQty = Number(e.target.value);
+
+	let cartItems = getLocalStorage("so-cart") || [];
+
+	cartItems = cartItems.map(item => {
+		if (item.Id == id) {
+			return {
+				...item,
+				quantity: newQty
+			};
+		}
+		return item;
+	});
+
+	setLocalStorage("so-cart", cartItems);
+
+	renderCartContents(); // 🔥 recarga todo (incluye total)
 }
 
 renderCartContents();
